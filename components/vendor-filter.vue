@@ -3,8 +3,20 @@
         <div class="vendor-filter__header">
             <div class="vendor-filter__title">
                 Фильтр:
-                <span class="vendor-filter__name">По альбомам</span>
-                <span class="vendor-filter__name">Избранное</span>
+                <span
+                    class="vendor-filter__name"
+                    @click="setFilter('ABC')"
+                    :class="{ active: activeFilter == 'ABC' }"
+                    >
+                    По альбомам
+                </span>
+                <span
+                class="vendor-filter__name"
+                @click="setFilter('Favorites')"
+                :class="{ active: activeFilter == 'Favorites' }"
+                >
+                Избранное
+                </span>
             </div>
         </div>
         <div class="vendor-filter__scroll-wrap">
@@ -24,15 +36,23 @@ export default {
     props: {},
 
     data () {
-        return {};
+        return {
+            activeFilter: 'ABC',
+        };
     },
 
     computed: {},
 
-    created () {
+    mounted () {
+        this.activeFilter = window.localStorage.getItem('activeFilter') || this.activeFilter;
     },
 
-    methods: {},
+    methods: {
+        setFilter (val) {
+            this.activeFilter = val;
+            window.localStorage.setItem('activeFilter', val);
+        },
+    },
 };
 </script>
 
@@ -48,6 +68,8 @@ export default {
     background: #ffffff;
     border-radius: 1.2rem;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 
     &__header {
         margin: 0 0 1.5rem;
@@ -63,10 +85,14 @@ export default {
         margin: 0 0.5rem;
         text-decoration: underline;
         cursor: pointer;
+        &.active {
+            color: #3E5EF2;
+        }
     }
 
     &__scroll-wrap {
         overflow: hidden;
+        flex: 1 0 auto;
     }
 
     &__scroll {
