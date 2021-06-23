@@ -80,6 +80,7 @@ export default {
         cursor: pointer;
         border: none;
         background: none;
+        flex: 0 0 auto;
         i {
             filter: none;
             transition: filter .3s;

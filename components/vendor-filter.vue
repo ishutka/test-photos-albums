@@ -22,9 +22,22 @@
         <div class="vendor-filter__scroll-wrap">
             <div class="vendor-filter__scroll">
                 <div class="vendor-filter__list">
-                    <div class="vendor-filter__item"></div>
-                    <div class="vendor-filter__item"></div>
-                    <div class="vendor-filter__item"></div>
+                    <div v-if="activeFilter == 'Favorites'">
+                        <div class="vendor-filter__item" v-for="photo in favorites" :key="photo.id" >
+                            <photo-item :item="photo" :isFavorite="true"/>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="vendor-filter__item" v-for="album in photosByAlbums" :key="album.name">
+                                <div >
+                                   {{ album.name }}
+                                </div>
+                                <photo-item v-for="photo in album.items" :item="photo"
+                                    :isFavorite="favorites.find(p => p.id === photo.id) ? true : false"
+                                    :key="photo.id">
+                                </photo-item>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,26 +45,89 @@
 </template>
 
 <script>
+import axios from 'axios';
+import photoItem from '@/components/photo-item';
+
 export default {
+    components: { photoItem },
+
     props: {},
 
     data () {
         return {
             activeFilter: 'ABC',
+            favorites: [],
+            photosByAlbums: [],
         };
     },
 
-    computed: {},
-
+    computed: {
+    },
     mounted () {
         this.activeFilter = window.localStorage.getItem('activeFilter') || this.activeFilter;
+        this.fetchData();
+        this.$on('changeFavorites', this.changeFavorites);
+        window.addEventListener('beforeunload', this.setLocalstorageFavorites);
     },
 
     methods: {
+        setLocalstorageFavorites () {
+            window.localStorage.setItem('Favorites', JSON.stringify(this.favorites));
+        },
+        changeFavorites (val) {
+            const photoInFavorites = this.favorites.find((item) => item.id === val.id);
+            this.favorites = photoInFavorites
+                ? this.favorites.filter((v) => v.id !== val.id)
+                : [...this.favorites, val];
+            this.setLocalstorageFavorites();
+        },
+        getFavorites () {
+            try {
+                this.favorites = JSON.parse(window.localStorage.getItem('Favorites')) || [];
+            } catch (e) {
+                window.localStorage.removeItem('Favorites');
+                throw Error(e);
+            }
+        },
         setFilter (val) {
             this.activeFilter = val;
             window.localStorage.setItem('activeFilter', val);
         },
+        fetchData () {
+            axios.get('http://jsonplaceholder.typicode.com/photos')
+                .then(({ data }) => {
+                    const photos = data.slice(0, 100);
+                    this.getFavorites();
+                    this.sortPhotosByABC(photos);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+        sortPhotosByABC (photos) {
+            photos.forEach((photo) => {
+                const albumName = photo.title.slice(0, 1).toUpperCase();
+                let album = this.photosByAlbums.find((al) => al.name === albumName);
+                if (!album) {
+                    album = { name: albumName, items: [photo] };
+                    this.photosByAlbums = [...this.photosByAlbums, album];
+                } else if (!album.items.find((i) => i.id === photo.id)) album.items = [...album.items, photo];
+            });
+
+            this.photosByAlbums.sort((a, b) => {
+                if (a.name > b.name) {
+                    return 1;
+                }
+                if (a.name < b.name) {
+                    return -1;
+                }
+
+                return 0;
+            });
+        },
+    },
+    beforeDestroy () {
+        this.$off('changeFavorites');
     },
 };
 </script>
@@ -92,17 +168,32 @@ export default {
 
     &__scroll-wrap {
         overflow: hidden;
-        flex: 1 0 auto;
     }
 
     &__scroll {
         width: 100%;
-        max-height: 66rem;
+        height: 100%;
         overflow-y: auto;
+        overflow-x: hidden;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
     &__list {
         position: relative;
+
+        > div {
+            position: relative;
+            column-count: 4;
+            column-gap: 2rem;
+            column-width: 23rem;
+        }
+    }
+
+    &__item {
+        width: 100%;
+        display: inline-block;
     }
 }
 </style>
