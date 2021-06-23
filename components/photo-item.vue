@@ -4,31 +4,39 @@
         <div class="photo-item__name">{{ item.title }}</div>
         <button class="photo-item__favorite-status"
             @click="switchFavorite" aria-label="add to favorites"
-            :title="isFavorite ? 'remove frome Favorites' : 'add to Favorites'">
-            <i :class="{ favorite : isFavorite }"></i>
+            :title="photoIsInFavorites ? 'remove frome Favorites' : 'add to Favorites'">
+            <i :class="{ favorite : photoIsInFavorites }"></i>
         </button>
     </div>
 </template>
 <script>
 export default {
-    data () {
-        return {
-            isFavorite: false,
-        };
+    computed: {
+        photoIsInFavorites: {
+            get () {
+                return this.isFavorite;
+            },
+            set (val) {
+                return val;
+            },
+        },
     },
     props: {
         item: {
             type: Object,
             required: true,
         },
+        isFavorite: {
+            type: Boolean,
+            require: true,
+        },
     },
     mounted () {
-        this.isFavorite = this.item.isFavorite || false;
     },
     methods: {
         switchFavorite () {
-            this.isFavorite = !this.isFavorite;
-            this.$parent.$emit('changeFavorites', this.item.id);
+            this.photoIsInFavorites = !this.photoIsInFavorites;
+            this.$parent.$emit('changeFavorites', this.item);
         },
     },
 };
