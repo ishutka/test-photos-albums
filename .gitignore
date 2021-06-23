@@ -6,6 +6,7 @@ dist
 dist/*
 package-lock.json
 yarn.lock
+.gitignore
 
 # Logs
 logs
@@ -52,6 +53,9 @@ jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
+
+# firebase  cache
+.firebase
 
 # TypeScript cache
 *.tsbuildinfo
