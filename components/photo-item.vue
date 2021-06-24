@@ -3,24 +3,14 @@
         <div class="photo-item__img-wrap"><img :src="item.thumbnailUrl" :alt="item.title"></div>
         <div class="photo-item__name">{{ item.title }}</div>
         <button class="photo-item__favorite-status"
-            @click="switchFavorite" aria-label="add to favorites"
-            :title="photoIsInFavorites ? 'remove frome Favorites' : 'add to Favorites'">
-            <i :class="{ favorite : photoIsInFavorites }"></i>
+            @click="switchFavorite"
+            :title="btnTitle">
+            <i :class="{ favorite : photoIsInFavorites }" :area-label="btnTitle"></i>
         </button>
     </div>
 </template>
 <script>
 export default {
-    computed: {
-        photoIsInFavorites: {
-            get () {
-                return this.isFavorite;
-            },
-            set (val) {
-                return val;
-            },
-        },
-    },
     props: {
         item: {
             type: Object,
@@ -31,8 +21,21 @@ export default {
             require: true,
         },
     },
-    mounted () {
+
+    computed: {
+        btnTitle () {
+            return this.photoIsInFavorites ? 'remove frome Favorites' : 'add to Favorites';
+        },
+        photoIsInFavorites: {
+            get () {
+                return this.isFavorite;
+            },
+            set (val) {
+                return val;
+            },
+        },
     },
+
     methods: {
         switchFavorite () {
             this.photoIsInFavorites = !this.photoIsInFavorites;
@@ -81,6 +84,7 @@ export default {
         border: none;
         background: none;
         flex: 0 0 auto;
+
         i {
             filter: none;
             transition: filter .3s;
@@ -93,6 +97,7 @@ export default {
         i:before {
             content: url('../static/img/rate_empty.png');
         }
+
         i.favorite:before {
             content: url('../static/img/rate_full.png');
         }
