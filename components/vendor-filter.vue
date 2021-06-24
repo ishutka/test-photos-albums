@@ -21,22 +21,20 @@
         </div>
         <div class="vendor-filter__scroll-wrap">
             <div class="vendor-filter__scroll">
-                <div class="vendor-filter__list">
-                    <div v-if="activeFilter == 'Favorites'">
-                        <div class="vendor-filter__item" v-for="photo in favorites" :key="photo.id" >
-                            <photo-item :item="photo" :isFavorite="true"/>
-                        </div>
+                <div class="vendor-filter__list" v-if="activeFilter == 'Favorites'">
+                    <div class="vendor-filter__item" v-for="photo in favorites" :key="photo.id" >
+                        <photo-item :item="photo" :isFavorite="true"/>
                     </div>
-                    <div v-else>
-                        <div class="vendor-filter__item" v-for="album in photosByAlbums" :key="album.name">
-                                <div >
-                                   {{ album.name }}
-                                </div>
-                                <photo-item v-for="photo in album.items" :item="photo"
-                                    :isFavorite="favorites.find(p => p.id === photo.id) ? true : false"
-                                    :key="photo.id">
-                                </photo-item>
+                </div>
+                <div v-else class="vendor-filter__list">
+                    <div class="vendor-filter__item" v-for="album in photosByAlbums" :key="album.name">
+                        <div >
+                            {{ album.name }}
                         </div>
+                        <photo-item v-for="photo in album.items" :item="photo"
+                            :isFavorite="favorites.find(p => p.id === photo.id) ? true : false"
+                            :key="photo.id">
+                        </photo-item>
                     </div>
                 </div>
             </div>
@@ -51,8 +49,6 @@ import photoItem from '@/components/photo-item';
 export default {
     components: { photoItem },
 
-    props: {},
-
     data () {
         return {
             activeFilter: 'ABC',
@@ -61,27 +57,24 @@ export default {
         };
     },
 
-    computed: {
-    },
     mounted () {
         this.activeFilter = window.localStorage.getItem('activeFilter') || this.activeFilter;
         this.fetchData();
         this.$on('changeFavorites', this.changeFavorites);
-        window.addEventListener('beforeunload', this.setLocalstorageFavorites);
     },
 
     methods: {
         setLocalstorageFavorites () {
             window.localStorage.setItem('Favorites', JSON.stringify(this.favorites));
         },
-        changeFavorites (val) {
-            const photoInFavorites = this.favorites.find((item) => item.id === val.id);
+        changeFavorites (photo) {
+            const photoInFavorites = this.favorites.find((item) => item.id === photo.id);
             this.favorites = photoInFavorites
-                ? this.favorites.filter((v) => v.id !== val.id)
-                : [...this.favorites, val];
+                ? this.favorites.filter((f) => f.id !== photo.id)
+                : [...this.favorites, photo];
             this.setLocalstorageFavorites();
         },
-        getFavorites () {
+        getFavoritesFromLocalstorage () {
             try {
                 this.favorites = JSON.parse(window.localStorage.getItem('Favorites')) || [];
             } catch (e) {
@@ -97,11 +90,11 @@ export default {
             axios.get('https://jsonplaceholder.typicode.com/photos')
                 .then(({ data }) => {
                     const photos = data.slice(0, 100);
-                    this.getFavorites();
+                    this.getFavoritesFromLocalstorage();
                     this.sortPhotosByABC(photos);
                 })
                 .catch((error) => {
-                    console.error(error);
+                    throw new Error(error);
                 });
         },
         sortPhotosByABC (photos) {
@@ -126,8 +119,9 @@ export default {
             });
         },
     },
+
     beforeDestroy () {
-        this.$off('changeFavorites');
+        this.$off('changeFavorites', this.changeFavorites);
     },
 };
 </script>
@@ -184,13 +178,9 @@ export default {
 
     &__list {
         position: relative;
-
-        > div {
-            position: relative;
-            column-count: 4;
-            column-gap: 2rem;
-            column-width: 23rem;
-        }
+        column-count: 4;
+        column-gap: 2rem;
+        column-width: 23rem;
     }
 
     &__item {
