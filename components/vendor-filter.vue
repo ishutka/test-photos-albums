@@ -94,7 +94,7 @@ export default {
             window.localStorage.setItem('activeFilter', val);
         },
         fetchData () {
-            axios.get('http://jsonplaceholder.typicode.com/photos')
+            axios.get('http://jsonplaceholder.typicode.com/photos/')
                 .then(({ data }) => {
                     const photos = data.slice(0, 100);
                     this.getFavorites();

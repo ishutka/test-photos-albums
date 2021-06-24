@@ -3,5 +3,22 @@
         "ZEBOARD",
         "esversion",
         "stylelint"
-    ]
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#bd1bce",
+        "activityBar.activeBorder": "#c5b51a",
+        "activityBar.background": "#bd1bce",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#c5b51a",
+        "activityBarBadge.foreground": "#15202b",
+        "statusBar.background": "#9415a1",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#bd1bce",
+        "titleBar.activeBackground": "#9415a1",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#9415a199",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#9415a1"
 }
