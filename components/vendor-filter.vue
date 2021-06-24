@@ -27,8 +27,8 @@
                     </div>
                 </div>
                 <div v-else class="vendor-filter__list">
-                    <div class="vendor-filter__item" v-for="album in photosByAlbums" :key="album.name">
-                        <div >
+                    <div class="vendor-filter__item album" v-for="album in photosByAlbums" :key="album.name">
+                        <div class="vendor-filter__album-name">
                             {{ album.name }}
                         </div>
                         <photo-item v-for="photo in album.items" :item="photo"
@@ -186,6 +186,16 @@ export default {
     &__item {
         width: 100%;
         display: inline-block;
+
+        &.album {
+            margin-bottom: 18px;
+        }
+    }
+
+    &__album-name {
+        padding-left: 18px;
+        width: 100%;
+        margin-bottom: 8px;
     }
 }
 </style>
