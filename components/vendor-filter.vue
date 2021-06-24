@@ -3,20 +3,20 @@
         <div class="vendor-filter__header">
             <div class="vendor-filter__title">
                 Фильтр:
-                <span
+                <button
                     class="vendor-filter__name"
                     @click="setFilter('ABC')"
                     :class="{ active: activeFilter == 'ABC' }"
                     >
                     По альбомам
-                </span>
-                <span
+                </button>
+                <button
                 class="vendor-filter__name"
                 @click="setFilter('Favorites')"
                 :class="{ active: activeFilter == 'Favorites' }"
                 >
                 Избранное
-                </span>
+                </button>
             </div>
         </div>
         <div class="vendor-filter__scroll-wrap">
@@ -160,6 +160,8 @@ export default {
     &__name {
         margin: 0 0.5rem;
         text-decoration: underline;
+        border: none;
+        background: none;
         cursor: pointer;
         &.active {
             color: #3E5EF2;
