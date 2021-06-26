@@ -149,16 +149,30 @@ export default {
         font-weight: bold;
         font-size: 1.4rem;
         line-height: 1.9rem;
+        display: flex;
     }
 
     &__name {
         margin: 0 0.5rem;
         text-decoration: underline;
+        font-weight: bold;
         border: none;
         background: none;
         cursor: pointer;
+        position: relative;
+        overflow: visible;
         &.active {
             color: #3E5EF2;
+        }
+        &:first-child::after {
+            content: '';
+            display: inline-block;
+            height: 22px;
+            margin-left: 0.5rem;
+            border-right: 1px solid #DEDEE5;
+            position: absolute;
+            top: 0;
+            right: -0.5rem;
         }
     }
 
