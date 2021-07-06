@@ -1,4 +1,7 @@
-
+// const functions = require("firebase-functions");
+// const firebaseConfigProject = (functions.config().projects || {}).zeboard || {};
+// console.log('nuxtModules=>nuxt.js: ',firebaseConfigProject,' full CONFIGs:', functions.config());
+import modules from "./nuxtModules.js";
 export default {
     mode: "spa",
     dev: "develop",
@@ -15,11 +18,9 @@ export default {
 
     plugins: [],
 
-    modules: [
-        '~/modules/firebaseModule.js',
-    ],
-    buildModules: [
-    ],
+    modules,
+   
+    buildModules: [],
 
-    target: 'static'
+    target: "static",
 };
