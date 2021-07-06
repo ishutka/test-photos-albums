@@ -1,7 +1,5 @@
 const functions = require("firebase-functions");
 const firebaseConfigProject = (functions.config().projects || {}).zeboard || {};
-// require('dotenv').config()
-// console.log("process.env.NODE_EN: ", process.env.FIREBASE_API_KEY,process.env.NODE_ENV==='development');
 export default {
     mode: "spa",
     dev: "develop",

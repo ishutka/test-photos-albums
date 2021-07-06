@@ -1,5 +1,6 @@
 export default function() {
     const { nuxt } = this;
+    console.log("FROM FIREBASEE MODULE: ", nuxt.options.dev);
     if (nuxt.options.dev === false) {
         return [
             "@nuxtjs/firebase",
