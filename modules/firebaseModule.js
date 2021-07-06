@@ -3,7 +3,7 @@ const firebaseConfigProject = (functions.config().projects || {}).zeboard || {};
 export default function() {
     const { nuxt } = this;
     if (nuxt.options.dev === false) {
-        return [
+        nuxt.options.modules.push([
             "@nuxtjs/firebase",
             {
                 config: {
@@ -27,6 +27,6 @@ export default function() {
                     analytics: true,
                 },
             },
-        ];
+        ]);
     }
 }
