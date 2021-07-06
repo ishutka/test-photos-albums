@@ -23,6 +23,10 @@ module.exports = {
             4,
             { SwitchCase: 1 },
         ],
+        'quotes': [
+            'double',
+            'single'
+        ],
         'space-before-function-paren': [
             'error',
             'always',

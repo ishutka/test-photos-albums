@@ -1,15 +1,21 @@
-export default {
-    mode: 'spa',
 
+export default {
+    mode: "spa",
+    dev: "develop",
     head: {
-        title: 'CC',
+        title: "CC",
         meta: [
-            { charset: 'utf-8' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+            { charset: "utf-8" },
+            {
+                name: "viewport",
+                content: "width=device-width, initial-scale=1",
+            },
         ],
     },
 
     plugins: [],
 
-    buildModules: [],
+    buildModules: [
+        '~/modules/firebaseModule.js'
+    ],
 };
