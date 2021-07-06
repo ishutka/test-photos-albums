@@ -56,6 +56,7 @@ typings/
 
 # firebase  cache
 .firebase
+.runtimeconfig.json
 
 # TypeScript cache
 *.tsbuildinfo
