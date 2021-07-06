@@ -15,7 +15,11 @@ export default {
 
     plugins: [],
 
-    buildModules: [
-        '~/modules/firebaseModule.js'
+    modules: [
+        '~/modules/firebaseModule.js',
     ],
+    buildModules: [
+    ],
+
+    target: 'static'
 };
