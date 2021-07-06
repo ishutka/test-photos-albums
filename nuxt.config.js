@@ -1,5 +1,4 @@
-const functions = require("firebase-functions");
-const firebaseConfigProject = (functions.config().projects || {}).zeboard || {};
+
 export default {
     mode: "spa",
     dev: "develop",

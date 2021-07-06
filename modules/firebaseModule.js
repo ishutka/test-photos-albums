@@ -1,6 +1,7 @@
+const functions = require("firebase-functions");
+const firebaseConfigProject = (functions.config().projects || {}).zeboard || {};
 export default function() {
     const { nuxt } = this;
-    console.log("FROM FIREBASEE MODULE: ", nuxt.options.dev);
     if (nuxt.options.dev === false) {
         return [
             "@nuxtjs/firebase",
