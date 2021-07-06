@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
-    "generate": "nuxt generate",
+    "generate": "firebase functions:config:get > .runtimeconfig.json && nuxt generate",
     "start": "nuxt start"
   },
   "dependencies": {
