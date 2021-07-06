@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "zeboard": {
+      "apps": {
+        "test-photos-albums": {
+          "measurement-id": "G-S9304Z8P6K",
+          "app-id": "1:1201843794:web:ceff613de50812157b398b"
+        }
+      },
+      "api-key": "AIzaSyBvwHOl6dMaHLEVjGTJAUvPPKbxqooN1jY",
+      "messaging-sender-id": "1201843794"
+    }
+  },
+  "analitik": {
+    "key": "G-MZW61WP0F9"
+  }
+}
